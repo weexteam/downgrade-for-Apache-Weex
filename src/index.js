@@ -1,6 +1,5 @@
 /* global WXEnvironment, weex, callNative */
 
-// import * as semver from 'semver'
 import semver from './semver'
 
 const MODULE_NAME = 'instanceWrap'
