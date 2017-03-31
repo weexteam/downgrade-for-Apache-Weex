@@ -1,11 +1,12 @@
 {
   "name": "@weex-project/downgrade",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Weex downgrade to Web module",
   "main": "dist/index.js",
   "scripts": {
     "test": "npm run mocha",
     "mocha": "NODE_ENV=test mocha --compilers js:babel-core/register test/*.js test/**/*.js",
+    "build": "npm run babel",
     "babel": "node_modules/.bin/babel src --out-dir dist/",
     "open:git": "open https://github.com/weexteam/downgrade"
   },
