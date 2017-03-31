@@ -1,6 +1,10 @@
 # Downgrade module
 Weex downgrade to web module. Version should be semver format.
 
+## install
+install from npm command: `npm install @weex-project/downgrade --save`
+
+
 ## sample
 ```
 import Downgrade from '@weex-project/downgrade'
