@@ -1,0 +1,37 @@
+{
+  "name": "@weex-project/downgrade",
+  "version": "1.0.0",
+  "description": "Weex downgrade to Web module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm run mocha",
+    "mocha": "NODE_ENV=test mocha --compilers js:babel-core/register test/*.js test/**/*.js",
+    "open:git": "open https://github.com/weexteam/downgrade"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weexteam/downgrade.git"
+  },
+  "keywords": [
+    "weex",
+    "downgrade",
+    "web"
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.8.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "webpack-stream": "^3.2.0",
+    "webpack-strip": "^0.1.0"
+  },
+  "author": "Isken Huang",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/weexteam/downgrade/issues"
+  },
+  "homepage": "https://github.com/weexteam/downgrade#readme"
+}
