@@ -1,0 +1,19 @@
+{
+  "name": "webpack-plugin-downgrade",
+  "version": "0.2.0",
+  "description": "Weex downgrade plugin",
+  "main": "index.js",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "weex",
+    "downgrade"
+  ],
+  "author": "Hanks <zhanghan.me@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "json-format": "^1.0.1",
+    "webpack": "^2.6.1",
+    "webpack-sources": "^1.0.1"
+  }
+}
