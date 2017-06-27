@@ -39,8 +39,11 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.0.0",
+    "webpack": "^3.0.0",
+    "webpack-sources": "^1.0.1",
     "webpack-stream": "^3.2.0",
-    "webpack-strip": "^0.1.0"
+    "webpack-strip": "^0.1.0",
+    "weex-loader": "^0.4.5"
   },
   "author": "Isken Huang",
   "license": "Apache-2.0",
