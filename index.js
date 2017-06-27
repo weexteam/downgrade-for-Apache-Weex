@@ -1,16 +1,71 @@
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.WeexDowngrade = factory());
+}(this, (function () { 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+var semver = {
+	satisfies: function satisfies(left, right) {
+		var regex = /(\W+)?([\d|.]+)/;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /* global WXEnvironment, weex, callNative */
+		if (typeof left + typeof right !== 'stringstring')
+		{ return false }
 
-var _semver = require('./semver');
+		// *匹配所有
+		if (right == '*') {
+			return true
+		}
 
-var _semver2 = _interopRequireDefault(_semver);
+		var arr = right.match(regex);
+		var a = left.split('.');
+		var i = 0;
+		var b = arr[2].split('.');
+		var len = Math.max(a.length, b.length);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+		var flag = 0;
+		for (var i$1 = 0; i$1 < len; i$1++) {
+			if ((a[i$1] && !b[i$1] && parseInt(a[i$1]) > 0) || (parseInt(a[i$1]) > parseInt(b[i$1]))) {
+				flag = 1;
+				break
+			} else if ((b[i$1] && !a[i$1] && parseInt(b[i$1]) > 0) || (parseInt(a[i$1]) < parseInt(b[i$1]))) {
+				flag = -1;
+				break
+			}
+		}
+
+		switch (arr[1]) {
+			case '<':
+				if (flag === -1) {
+					return true
+				}
+				break
+			case '<=':
+				if (flag !== 1) {
+					return true
+				}
+				break
+			case '>':
+				if (flag === 1) {
+					return true
+				}
+				break
+			case '>=':
+				if (flag !== -1) {
+					return true
+				}
+				break
+			default:
+				if (flag === 0) {
+					return true
+				}
+				break
+		}
+
+		return false
+	}
+};
+
+/* global WXEnvironment, weex, callNative */
 
 var MODULE_NAME = 'instanceWrap';
 var DOWNGRADE_TYPE = 1;
@@ -21,8 +76,8 @@ var DOWNGRADE_MSG = 'Force downgrade to web';
  * @private
  * Using async type to check environment
  */
-function isWeex() {
-    return (typeof window === 'undefined' ? 'undefined' : _typeof(window)) !== 'object' && typeof callNative !== 'undefined';
+function isWeex () {
+    return typeof(window) !== 'object' && typeof(callNative) !== 'undefined'
 }
 
 /**
@@ -33,25 +88,25 @@ function getInstanceWrap() {
     var prefix = '@weex-module/';
 
     try {
-        return weex.requireModule(MODULE_NAME);
-    } catch (e) {}
+        return weex.requireModule(MODULE_NAME)
+    }catch(e) {}
 
     try {
-        return __weex_require__(prefix + MODULE_NAME);
-    } catch (e) {}
+        return __weex_require__( prefix + MODULE_NAME)
+    }catch(e) {}
 
-    return { error: function error() {
-            console && console.log && console.log('Can not found module ' + MODULE_NAME);
-        } };
+    return { error: function() {
+        console && console.log && console.log(("Can not found module [" + MODULE_NAME + "]"));
+    } }
 }
 
-function force(type, errorCode, message) {
-    if (!isWeex()) return false;
+function force (type, errorCode, message) {
+    if(!isWeex()) { return false }
     type = parseInt(type) || DOWNGRADE_TYPE;
     errorCode = parseInt(errorCode) || DOWNGRADE_ERROR_CODE;
     message = isString(message) ? message : DOWNGRADE_MSG;
     getInstanceWrap()['error'](type, errorCode, message);
-    return true;
+    return true
 }
 
 /**
@@ -79,7 +134,7 @@ function check(config) {
     };
 
     if (!isWeex()) {
-        return result;
+        return result
     }
 
     var deviceInfo = WXEnvironment || {};
@@ -99,30 +154,40 @@ function check(config) {
             var c = normalizeVersion(criteria);
             var d = normalizeVersion(deviceInfo[key]);
 
-            if (_semver2.default.satisfies(d, c)) {
+            // app version support multiple app format
+            if(keyLower.indexOf('app') === 0 && isObject(criteria)) {
+                var aName = deviceInfo['appName'] || '';
+                c = normalizeVersion(criteria[aName]);
+            }
+
+            if (semver.satisfies(d, c)) {
                 result = getError(key, val, criteria);
-                break;
+                break
             }
         } else if (isDeviceModel) {
             var _criteria = Array.isArray(criteria) ? criteria : [criteria];
 
             if (_criteria.indexOf(val) >= 0) {
                 result = getError(key, val, criteria);
-                break;
+                break
             }
         }
     }
 
-    return result;
+    return result
 }
 
 function isString(v) {
-    return typeof v === 'string';
+    return typeof(v) === 'string'
+}
+
+function isObject(v) {
+    return Object.prototype.toString.call(v).slice(8, -1) === 'Object'
 }
 
 function normalizeVersion(v) {
     if (v === '*') {
-        return v;
+        return v
     }
 
     v = isString(v) ? v : '';
@@ -136,7 +201,7 @@ function normalizeVersion(v) {
         i++;
     }
 
-    return result.join('.');
+    return result.join('.')
 }
 
 function getError(key, val, criteria) {
@@ -146,8 +211,8 @@ function getError(key, val, criteria) {
         code: 1000
     };
 
-    var getMsg = function getMsg(key, val, criteria) {
-        return 'Downgrade[' + key + ']: envInfo ' + val + ' matched criteria ' + criteria;
+    var getMsg = function(key, val, criteria) {
+        return ("Downgrade[" + key + "]: envInfo " + val + " matched criteria " + criteria)
     };
     var _key = key.toLowerCase();
 
@@ -162,21 +227,25 @@ function getError(key, val, criteria) {
     }
 
     result.errorMessage = getMsg(key, val, criteria);
-    return result;
+    return result
 }
 
-function condition(config) {
+function condition (config) {
     var diagnose = check(config);
-    if (diagnose.isDowngrade) {
+    if(diagnose.isDowngrade) {
         force(diagnose.errorType, diagnose.code, diagnose.errorMessage);
     }
 
-    return diagnose.isDowngrade;
+    return diagnose.isDowngrade
 }
 
-exports.default = {
+var index = {
     force: force,
     check: check,
     condition: condition,
-    semverLite: _semver2.default
+    semverLite: semver
 };
+
+return index;
+
+})));
