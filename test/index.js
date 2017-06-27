@@ -55,6 +55,71 @@ describe(pkg.name, () => {
             }
             expect(Downgrade.check(condition).isDowngrade).equal(true)
         })
+
+        describe('should be match condition with multiple app', () => {
+            const condition = {
+                ios: {
+                    osVersion: '<1',
+                    appVersion: {
+                        MY_APP_A: '>2.3.4'
+                    },
+                    weexVersion: '<1',
+                    deviceModel: []
+                },
+                android: {
+                    osVersion: '<1',
+                    appVersion: {
+                        MY_APP_B: '<5.6.7'
+                    },
+                    weexVersion: '<1',
+                    deviceModel: []
+                }
+            }
+
+            it('true case', () => {
+                global.WXEnvironment = {
+                    platform: 'iOS',
+                    appName: 'MY_APP_A',
+                    appVersion: '3.4.5',
+                    osVersion: '10.3.1',
+                    weexVersion: '5.0.0',
+                    deviceModel: 'iPhone7,1'
+                }
+                expect(Downgrade.check(condition).isDowngrade).equal(true)
+
+                global.WXEnvironment = {
+                    platform: 'iOS',
+                    appName: 'MY_APP_A',
+                    appVersion: '1.4.5',
+                    osVersion: '10.3.1',
+                    weexVersion: '5.0.0',
+                    deviceModel: 'iPhone7,1'
+                }
+                expect(Downgrade.check(condition).isDowngrade).equal(false)
+            })
+
+            it('false case', () => {
+                global.WXEnvironment = {
+                    platform: 'iOS',
+                    appName: 'MY_APP_B',
+                    appVersion: '3.4.5',
+                    osVersion: '10.3.1',
+                    weexVersion: '5.0.0',
+                    deviceModel: 'iPhone7,1'
+                }
+                expect(Downgrade.check(condition).isDowngrade).equal(false)
+
+                global.WXEnvironment = {
+                    platform: 'iOS',
+                    appName: 'MY_APP_B',
+                    appVersion: '0.0.5',
+                    osVersion: '10.3.1',
+                    weexVersion: '5.0.0',
+                    deviceModel: 'iPhone7,1'
+                }
+                expect(Downgrade.check(condition).isDowngrade).equal(false)
+            })
+        })
     })
 
     describe('condition', () => {
