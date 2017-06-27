@@ -12,7 +12,8 @@
     "dev:plugin": "rollup -w -c build/rollup.plugin.config.js",
     "test:build": "npm run build:plugin && webpack --config examples/webpack.config.js",
     "mocha": "NODE_ENV=test mocha --compilers js:babel-core/register test/*.js test/**/*.js",
-    "test": "npm run test:build && npm run mocha",
+    "test": "npm run test:build && npm run coverage",
+    "coverage": "nyc npm run mocha",
     "open:git": "open https://github.com/weexteam/downgrade"
   },
   "repository": {
@@ -33,6 +34,7 @@
     "chai": "^3.5.0",
     "json-format": "^1.0.1",
     "mocha": "^3.2.0",
+    "nyc": "^11.0.3",
     "rollup": "^0.43.0",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-commonjs": "^8.0.2",
@@ -45,7 +47,7 @@
     "webpack-strip": "^0.1.0",
     "weex-loader": "^0.4.5"
   },
-  "author": "Isken Huang",
+  "author": "Isken Huang <iskenhuang@gmial.com>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/weexteam/downgrade/issues"
