@@ -31,7 +31,7 @@ function getInstanceWrap() {
     }catch(e) {}
 
     return { error: function() {
-        console && console.log && console.log('Can not found module ' + MODULE_NAME)
+        console && console.log && console.log(`Can not found module [${MODULE_NAME}]`)
     } }
 }
 
@@ -89,6 +89,12 @@ function check(config) {
             let c = normalizeVersion(criteria)
             let d = normalizeVersion(deviceInfo[key])
 
+            // app version support multiple app format
+            if(keyLower.indexOf('app') === 0 && isObject(criteria)) {
+                let aName = deviceInfo['appName'] || ''
+                c = normalizeVersion(criteria[aName])
+            }
+
             if (semver.satisfies(d, c)) {
                 result = getError(key, val, criteria)
                 break
@@ -108,6 +114,10 @@ function check(config) {
 
 function isString(v) {
     return typeof(v) === 'string'
+}
+
+function isObject(v) {
+    return Object.prototype.toString.call(v).slice(8, -1) === 'Object'
 }
 
 function normalizeVersion(v) {
