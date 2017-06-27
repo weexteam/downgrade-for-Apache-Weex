@@ -32,7 +32,10 @@ module.exports = {
         },
         android: {
           osVersion: '>1.0',
-          appVersion: '>1.0.0',
+          appVersion: {
+            MY_APP_A: '>1.0.0',
+            MY_APP_C: '>3.0.0'
+          },
           weexVersion: '>1',
           deviceModel: ['G-2PW2100']
         }
