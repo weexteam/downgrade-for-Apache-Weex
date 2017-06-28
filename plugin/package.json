@@ -1,6 +1,6 @@
 {
   "name": "webpack-plugin-downgrade",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Weex downgrade plugin",
   "main": "index.js",
   "keywords": [
