@@ -23,7 +23,7 @@ Downgrade.force()
 */
 Downgrade.check({
     ios: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: '>1.0.0',
         weexVersion: '>1',
         deviceModel: ['iPhone5,1']
