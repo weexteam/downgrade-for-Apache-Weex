@@ -1,12 +1,14 @@
 # Downgrade module
+
 Weex downgrade to web module. Version should be semver format.
 
 ## install
+
 install from npm command: `npm install @weex-project/downgrade --save`
 
-
 ## sample
-```
+
+```js
 import Downgrade from '@weex-project/downgrade'
 
 // force downgrade
@@ -29,7 +31,7 @@ Downgrade.check({
         deviceModel: ['iPhone5,1']
     },
     android: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: '>1.0.0',
         weexVersion: '>1',
         deviceModel: ['G-2PW2100']
@@ -39,7 +41,7 @@ Downgrade.check({
 // check condition with multiple app. The `MY_APP_A` is WXEnvironment's appName param.
 Downgrade.check({
     ios: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: {
             MY_APP_A: '>1.0.0',
             MY_APP_B: '>2.0.0'
@@ -48,7 +50,7 @@ Downgrade.check({
         deviceModel: ['iPhone5,1']
     },
     android: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: {
             MY_APP_A: '>1.0.0',
             MY_APP_C: '>3.0.0'
@@ -61,13 +63,13 @@ Downgrade.check({
 // When match condition will auto downgrade to web
 Downgrade.condition({
     ios: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: '>1.0.0',
         weexVersion: '>1',
         deviceModel: ['iPhone5,1']
     },
     android: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: '>1.0.0',
         weexVersion: '>1',
         deviceModel: ['G-2PW2100']
@@ -77,7 +79,7 @@ Downgrade.condition({
 // When condition with multiple app. The `MY_APP_A` is WXEnvironment's appName param.
 Downgrade.condition({
     ios: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: {
             MY_APP_A: '>1.0.0',
             MY_APP_B: '>2.0.0'
@@ -86,7 +88,7 @@ Downgrade.condition({
         deviceModel: ['iPhone5,1']
     },
     android: {
-        osVersion: '>1.0'
+        osVersion: '>1.0',
         appVersion: {
             MY_APP_A: '>1.0.0',
             MY_APP_C: '>3.0.0'

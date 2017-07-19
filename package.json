@@ -1,6 +1,6 @@
 {
   "name": "@weex-project/downgrade",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Weex downgrade to Web module",
   "main": "index.js",
   "scripts": {
