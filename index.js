@@ -77,7 +77,9 @@ var DOWNGRADE_MSG = 'Force downgrade to web';
  * Using async type to check environment
  */
 function isWeex () {
-    return typeof(window) !== 'object' && typeof(callNative) !== 'undefined'
+    return typeof(WXEnvironment) !== 'undefined'
+        && WXEnvironment.platform
+        && WXEnvironment.platform.toLowerCase() !== 'web'
 }
 
 /**

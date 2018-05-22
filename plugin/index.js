@@ -74,7 +74,7 @@ function JSONFormat ( json, indentType ) {
   return out;
 }
 
-var index = function(json, config){
+var jsonFormat = function(json, config){
   config = config || configDefault;
   var indent = indentConfig[config.type];
 
@@ -107,7 +107,7 @@ function readCodesSync (filePath) {
 }
 
 function generateConditionCode (condition) {
-  var params = index(condition, {
+  var params = jsonFormat(condition, {
     type: 'space',
     size: 2
   });
