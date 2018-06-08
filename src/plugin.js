@@ -6,7 +6,7 @@ import { generateDowngradeCode } from './utils.js'
 export default class WeexDowngradePlugin {
   constructor (options) {
     this.options = Array.isArray(options)
-      ? options.filter(option => option && (option.condition || option.force))
+      ? options.filter(option => option && option.chunk)
       : [Object.assign({ chunk: true }, options)]
     this.codes = {}
   }

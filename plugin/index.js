@@ -139,7 +139,7 @@ function generateDowngradeCode (options) {
 
 var WeexDowngradePlugin = function WeexDowngradePlugin (options) {
   this.options = Array.isArray(options)
-    ? options.filter(function (option) { return option && (option.condition || option.force); })
+    ? options.filter(function (option) { return option && option.chunk; })
     : [Object.assign({ chunk: true }, options)];
   this.codes = {};
 };
