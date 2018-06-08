@@ -4,6 +4,9 @@ import jsonFormat from 'json-format'
 
 const defaultFilePath = path.join(__dirname, './downgrade.js')
 
+const defaultCondition = {
+}
+
 export function indent (code, len = 2) {
   const space = (new Array(len + 1)).join(' ')
   return space + code.replace(/\n/g, '\n' + space)

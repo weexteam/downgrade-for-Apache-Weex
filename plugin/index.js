@@ -87,6 +87,9 @@ var jsonFormat = function(json, config){
 
 var defaultFilePath = path.join(__dirname, './downgrade.js');
 
+var defaultCondition = {
+};
+
 function indent (code, len) {
   if ( len === void 0 ) len = 2;
 
@@ -135,11 +138,39 @@ function generateDowngradeCode (options) {
 }
 
 var WeexDowngradePlugin = function WeexDowngradePlugin (options) {
-  this.options = options || {};
+  this.options = Array.isArray(options)
+    ? options.filter(function (option) { return option && (option.condition || option.force); })
+    : [Object.assign({ chunk: true }, options)];
+  this.codes = {};
+};
+
+WeexDowngradePlugin.prototype.generateDowngradeCode = function generateDowngradeCode$1 (i) {
+  var ref = this;
+    var codes = ref.codes;
+  if (typeof codes[i] === 'undefined') {
+    codes[i] = generateDowngradeCode(this.options[i]);
+  }
+  return codes[i]
+};
+
+WeexDowngradePlugin.prototype.getCode = function getCode (chunkname) {
+    var this$1 = this;
+
+  var ref = this;
+    var options = ref.options;
+  var length = options.length;
+  for (var i = 0; i < length; i++) {
+    var ref$1 = options[i];
+      var chunk = ref$1.chunk;
+    if (chunk === true || chunk === chunkname || (Array.isArray(chunk) && chunk.indexOf(chunkname) > -1)) {
+      return this$1.generateDowngradeCode(i)
+    }
+  }
+  return ''
 };
 
 WeexDowngradePlugin.prototype.apply = function apply (compiler) {
-  var code = generateDowngradeCode(this.options);
+    var this$1 = this;
 
   compiler.plugin('compilation', function (compilation) {
     compilation.plugin('optimize-chunk-assets', function (chunks, callback) {
@@ -147,9 +178,13 @@ WeexDowngradePlugin.prototype.apply = function apply (compiler) {
       chunks.forEach(function (chunk) {
         if ('isInitial' in chunk && !chunk.isInitial()) { return; }
 
-        chunk.files.forEach(function (file) {
-          compilation.assets[file] = new webpackSources.ConcatSource(code, compilation.assets[file]);
-        });
+        var code = this$1.getCode(chunk.name);
+        if (code) {
+          var assets = compilation.assets;
+          chunk.files.forEach(function (file) {
+            assets[file] = new webpackSources.ConcatSource(code, assets[file]);
+          });
+        }
       });
       callback();
     });
