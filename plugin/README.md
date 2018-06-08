@@ -62,3 +62,22 @@ new DowngradePlugin({
   }
 })
 ```
+
+### Different options for different chunks
+
+The constructor can also accept an array which is a list of options. Here's an example:
+
+```javascript
+new DowngradePlugin([{
+  // single chunk name
+  chunk: 'page1',
+  // options
+  condition: { }
+}, {
+  // array of chunk names
+  chunk: ['page2', 'page3'],
+  // options
+  force: true
+}])
+```
+

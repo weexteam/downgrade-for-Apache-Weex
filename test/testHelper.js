@@ -1,7 +1,9 @@
 
 export default {
     setGlobalEnvironment () {
-        global.WXEnvironment = {}
+        global.WXEnvironment = {
+            platform: 'iOS'
+        }
         global.weex = {
             requireModule () {
                 return {
